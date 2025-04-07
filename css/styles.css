@@ -20,7 +20,7 @@ body {
   font-family: var(--font-family);
   background-color: var(--background-color);
   color: var(--primary-color);
-  line-height: 1.6;
+  line-height: 1.4;
 }
 
 /* Container */
@@ -30,7 +30,7 @@ body {
   margin: 3rem auto;
   background-color: var(--container-bg);
   padding: 2rem 2.5rem;
-  border-radius: 10px;
+  border-radius: 5px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
