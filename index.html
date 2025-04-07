@@ -6,7 +6,8 @@
   <title>VA Wealth Builder</title>
   <!-- Google Fonts for a modern look -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css" />
+  <!-- Updated to reference the files in your public folder -->
+  <link rel="stylesheet" href="https://vawealthbuilder.com/public/style.css" />
 </head>
 <body>
   <div class="container">
@@ -38,7 +39,6 @@
       </div>
       <div class="form-group">
         <label for="retirement-age">Retirement Age:</label>
-        <!-- Updated placeholder to 67 -->
         <input type="number" id="retirement-age" min="18" max="120" placeholder="67" />
         <div id="retirement-age-error" class="error-message"></div>
       </div>
@@ -61,27 +61,29 @@
         <span id="projected-amount">0.00</span>
       </h2>
     </div>
-    <p class="update-info">
-      Compensation rates for 2025:<br>
-      10%: $175.51, 20%: $346.95,<br>
-      and for ratings 30% and above the amount varies by dependent status.<br>
-      For the most current rates, please check the 
-      <a href="https://www.va.gov/disability/compensation-rates/veteran-rates/" target="_blank">
-        official VA website
-      </a>.
+    <!-- Replace the rates text with two simple links -->
+    <p class="links" style="text-align: center; margin-top: 15px;">
+      <a href="https://www.va.gov/disability/compensation-rates/veteran-rates/" target="_blank">Official VA Compensation Rates</a> | 
+      <a href="https://www.va.gov/disability/how-to-file-claim/" target="_blank">Submit an Intent to File</a>
     </p>
-    <!-- Donation Button with your Buy Me a Coffee URL -->
-    <div class="donate" style="text-align:center; margin-top: 20px;">
-      <a href="https://buymeacoffee.com/vawealth" target="_blank">
-        <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Beer" style="height: 60px; width: auto;">
+    <!-- Donation Button with inline SVG Beer Icon -->
+    <div class="donate" style="text-align:center; margin-top: 15px;">
+      <a href="https://buymeacoffee.com/vawealth" target="_blank" style="display: inline-flex; align-items: center; text-decoration: none;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="var(--primary-color)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 10px;">
+          <path d="M2 3h2l2 12a4 4 0 0 0 4 4h6a4 4 0 0 0 4-4l2-12h2"></path>
+          <line x1="2" y1="3" x2="22" y2="3"></line>
+          <line x1="6" y1="3" x2="6" y2="1"></line>
+          <line x1="18" y1="3" x2="18" y2="1"></line>
+        </svg>
+        <span style="font-size: 1.2rem; color: var(--primary-color); font-weight: 600;">Buy me a beer</span>
       </a>
     </div>
     <!-- Disclaimer -->
-    <p class="disclaimer" style="font-size:0.8em; text-align:center; color:#777; margin-top:20px;">
+    <p class="disclaimer" style="font-size:0.8em; text-align:center; color:#777; margin-top:15px;">
       Disclaimer: This calculator is provided for informational purposes only and does not constitute financial advice.
       Please consult with a financial advisor or tax professional before making any financial decisions.
     </p>
   </div>
-  <script src="js/script.js"></script>
+  <script src="https://vawealthbuilder.com/public/script.js"></script>
 </body>
 </html>
