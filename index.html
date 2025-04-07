@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VA Wealth Builder Calculator</title>
+  <!-- Google Fonts for a modern look -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>VA Wealth Builder Calculator</h1>
+    <form id="calculator-form">
+      <div class="form-group">
+        <label for="va-rating">VA Disability Rating:</label>
+        <select id="va-rating">
+          <!-- Options will be populated dynamically -->
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="dependent-status">Dependent Status:</label>
+        <select id="dependent-status">
+          <option value="alone">Veteran Alone (No Dependents)</option>
+          <option value="with_spouse">With Spouse Only</option>
+          <option value="with_spouse_and_child">With Spouse and 1 Child</option>
+          <option value="with_child_only">With 1 Child Only</option>
+          <option value="with_spouse_and_1_parent">With Spouse and 1 Parent</option>
+          <option value="with_spouse_and_2_parents">With Spouse and 2 Parents</option>
+          <option value="with_1_parent_only">With 1 Parent Only</option>
+          <option value="with_2_parents_only">With 2 Parents Only</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="current-age">Current Age:</label>
+        <input type="number" id="current-age" min="18" max="100" placeholder="22" />
+        <div id="current-age-error" class="error-message"></div>
+      </div>
+      <div class="form-group">
+        <label for="retirement-age">Retirement Age:</label>
+        <!-- Updated placeholder to 67 -->
+        <input type="number" id="retirement-age" min="18" max="120" placeholder="67" />
+        <div id="retirement-age-error" class="error-message"></div>
+      </div>
+      <div class="form-group">
+        <label for="return-rate">
+          Investment Return Rate (%): <span id="return-rate-display">8%</span>
+        </label>
+        <input type="range" id="return-rate" min="0" max="20" step="1" value="8" />
+      </div>
+      <div class="form-group">
+        <label for="additional-investment">
+          Additional Monthly Investment ($): <span id="additional-investment-display">$0</span>
+        </label>
+        <input type="range" id="additional-investment" min="0" max="2000" step="10" value="0" />
+      </div>
+    </form>
+    <div id="projection-results">
+      <h2>
+        Projected Amount at Retirement: $
+        <span id="projected-amount">0.00</span>
+      </h2>
+    </div>
+    <p class="update-info">
+      Compensation rates for 2025:<br>
+      10%: $175.51, 20%: $346.95,<br>
+      and for ratings 30% and above the amount varies by dependent status.<br>
+      For the most current rates, please check the 
+      <a href="https://www.va.gov/disability/compensation-rates/veteran-rates/" target="_blank">
+        official VA website
+      </a>.
+    </p>
+    <!-- Donation Button with your Buy Me a Coffee URL -->
+    <div class="donate" style="text-align:center; margin-top: 20px;">
+      <a href="https://buymeacoffee.com/vawealth" target="_blank">
+        <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Beer" style="height: 60px; width: auto;">
+      </a>
+    </div>
+    <!-- Disclaimer -->
+    <p class="disclaimer" style="font-size:0.8em; text-align:center; color:#777; margin-top:20px;">
+      Disclaimer: This calculator is provided for informational purposes only and does not constitute financial advice.
+      Please consult with a financial advisor or tax professional before making any financial decisions.
+    </p>
+  </div>
+  <script src="js/script.js"></script>
+</body>
+</html>

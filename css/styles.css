@@ -1,0 +1,154 @@
+/* Import Inter font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+/* CSS Variables for a modern color palette */
+:root {
+  --primary-color: #1f2937;      /* Dark slate-gray */
+  --secondary-color: #10b981;    /* Emerald */
+  --accent-color: #3b82f6;       /* Blue-500 */
+  --background-color: #f3f4f6;   /* Light gray background */
+  --container-bg: #ffffff;       /* White container */
+  --error-color: #ef4444;        /* Red-500 for errors */
+  --font-family: 'Inter', sans-serif;
+  --transition-speed: 0.3s;
+}
+
+/* Global Styles */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-family);
+  background-color: var(--background-color);
+  color: var(--primary-color);
+  line-height: 1.6;
+}
+
+/* Container */
+.container {
+  width: 90%;
+  max-width: 600px;
+  margin: 3rem auto;
+  background-color: var(--container-bg);
+  padding: 2rem 2.5rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Headings */
+h1 {
+  text-align: center;
+  color: var(--primary-color);
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+  font-size: 1.75rem;
+}
+
+h2 {
+  text-align: center;
+  color: var(--primary-color);
+  margin-top: 2rem;
+  font-weight: 600;
+  font-size: 1.5rem;
+}
+
+/* Form Styles */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+
+input[type="number"],
+select,
+input[type="range"] {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background-color: #f9fafb;
+  transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
+}
+
+input[type="number"]:focus,
+select:focus,
+input[type="range"]:focus {
+  border-color: var(--accent-color);
+  box-shadow: 0 0 5px rgba(59, 130, 246, 0.5);
+  outline: none;
+}
+
+/* Slider labels */
+#return-rate-display,
+#additional-investment-display {
+  font-weight: 600;
+  color: var(--accent-color);
+}
+
+/* Projection Results */
+#projected-amount {
+  color: var(--secondary-color);
+  font-size: 2.25rem;
+  font-weight: 700;
+}
+
+/* Update Info */
+.update-info {
+  font-size: 0.9rem;
+  color: #6b7280;
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.update-info a {
+  color: var(--accent-color);
+  text-decoration: none;
+}
+
+.update-info a:hover {
+  text-decoration: underline;
+}
+
+/* Donation Button (Optional) */
+.donate img {
+  border-radius: 6px;
+  transition: transform var(--transition-speed);
+}
+
+.donate img:hover {
+  transform: scale(1.05);
+}
+
+/* Disclaimer */
+.disclaimer {
+  font-size: 0.8rem;
+  text-align: center;
+  color: #9ca3af;
+  margin-top: 1.5rem;
+  line-height: 1.4;
+}
+
+/* Responsive Styles */
+@media (max-width: 600px) {
+  .container {
+    padding: 1.5rem;
+    margin: 1.5rem auto;
+  }
+  
+  h1 {
+    font-size: 1.5rem;
+  }
+  
+  h2 {
+    font-size: 1.25rem;
+  }
+  
+  #projected-amount {
+    font-size: 1.75rem;
+  }
+}
