@@ -1,150 +1,63 @@
-/* Filename: public/style.css */
-/* Import Inter font from Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
-
-/* CSS Variables for modern colors */
-:root {
-  --primary-color: #1f2937;      /* Dark slate-gray */
-  --secondary-color: #10b981;    /* Emerald */
-  --accent-color: #3b82f6;       /* Blue */
-  --error-color: #ef4444;        /* Red */
-  --background-color: #f3f4f6;    /* Light gray */
-  --container-bg: #ffffff;       /* White container */
-  --font-family: 'Inter', sans-serif;
-  --transition-speed: 0.3s;
-}
-
-/* Global Styles */
 body {
-  font-family: var(--font-family);
-  background-color: var(--background-color);
-  color: var(--primary-color);
-  margin: 0;
-  padding: 0;
-}
-
-/* Container */
-.container {
-  width: 90%;
-  max-width: 600px;
-  margin: 1rem auto;
-  background-color: var(--container-bg);
-  padding: 1.5rem 2rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-/* Headings */
-h1 {
-  text-align: center;
-  color: var(--primary-color);
-  margin-bottom: 1rem;
-  font-weight: 700;
-  font-size: 1.75rem;
-}
-
-h2 {
-  text-align: center;
-  color: var(--primary-color);
-  margin-top: 1rem;
-  font-weight: 600;
-  font-size: 1.5rem;
-}
-
-/* Inline Form Row */
-.form-row {
-  display: flex;
-  align-items: center;
-  margin-bottom: 1rem;
-}
-
-.form-row label {
-  font-weight: 600;
-  margin-right: 0.5rem;
-  white-space: nowrap;
-}
-
-.form-row input[type="number"],
-.form-row select,
-.form-row input[type="range"] {
-  flex: 1;
-  padding: 0.5rem;
-  font-size: 1rem;
-  border: 1px solid #d1d5db;
-  border-radius: 4px;
-  background-color: #f9fafb;
-  transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
-  margin-right: 0.5rem;
-}
-
-.form-row input[type="number"]:focus,
-.form-row select:focus,
-.form-row input[type="range"]:focus {
-  border-color: var(--accent-color);
-  box-shadow: 0 0 5px rgba(59, 130, 246, 0.5);
-  outline: none;
-}
-
-/* Projection Results */
-#projection-results {
-  margin-top: 1.5rem;
-  text-align: center;
-}
-
-#projected-amount {
-  color: var(--secondary-color);
-  font-size: 2rem;
-  font-weight: 700;
-}
-
-/* Update Info / Links */
-.update-info {
-  font-size: 0.9rem;
-  color: #6b7280;
-  text-align: center;
-  margin-top: 1rem;
-}
-
-/* Donation Button */
-.donate svg {
-  border-radius: 4px;
-  transition: transform var(--transition-speed);
-}
-
-.donate svg:hover {
-  transform: scale(1.05);
-}
-
-/* Disclaimer */
-.disclaimer {
-  font-size: 0.8rem;
-  text-align: center;
-  color: #777;
-  margin-top: 1rem;
-  line-height: 1.4;
-}
-
-/* Responsive Styles */
-@media (max-width: 600px) {
+    font-family: Arial, sans-serif;
+    background-color: #f7f9fc;
+    padding: 20px;
+    font-size: 18px;
+  }
+  
   .container {
-    width: 95%;
-    margin: 1rem auto;
-    padding: 1rem 1.5rem;
+    max-width: 800px;
+    margin: auto;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
   }
-  h1 {
-    font-size: 1.5rem;
-  }
+  
   h2 {
-    font-size: 1.25rem;
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 20px;
   }
-  #projected-amount {
-    font-size: 1.75rem;
-  }
-  .form-row {
+  
+  label {
+    display: flex;
     flex-direction: column;
-    align-items: stretch;
+    gap: 6px;
+    margin-bottom: 15px;
   }
-  .form-row label {
-    margin-bottom: 0.5rem;
+  
+  input, select {
+    padding: 10px;
+    font-size: 1rem;
   }
-}
+  
+  .result {
+    padding: 20px;
+    background-color: #e6f7ff;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+    margin-top: 20px;
+  }
+  
+  .result .label {
+    font-size: 1rem;
+    color: #555;
+  }
+  
+  .disclaimer, .links {
+    text-align: center;
+    font-size: 0.85rem;
+    margin-top: 15px;
+  }
+  
+  a {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  a:hover {
+    text-decoration: underline;
+  }
