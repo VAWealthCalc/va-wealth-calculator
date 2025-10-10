@@ -313,4 +313,27 @@ input:invalid {
     -webkit-appearance: none;
     margin: 0;
   }
+   /* ========== 1) More space under the page header ========== */
+/* Mobile & tablet */
+.container > h1 { 
+  margin-bottom: 32px;   /* was 10px */
+}
+/* Desktop — a little extra breathing room */
+@media (min-width: 1024px) {
+  .container > h1 { 
+    margin-bottom: 48px; 
+  }
+}
+
+/* ========== 2) Reduce space between the chart and the projection ========== */
+/* On phones the chart is BELOW the result, so tighten that gap: */
+.chart-card { 
+  margin-top: 8px;       /* was 16px */
+}
+
+/* On desktop the chart is ABOVE the result, so tighten the result’s top margin: */
+@media (min-width: 1024px) {
+  .result {
+    margin-top: 8px;     /* was 16px; set to 0px for an even tighter stack */
+  }
 }
