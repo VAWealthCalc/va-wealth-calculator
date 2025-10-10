@@ -71,7 +71,7 @@ label {
 
 input,
 select {
-  padding: 10px;
+  padding: 8px 10px;
   font-size: 1rem;
   border: 1px solid #d1d5db; /* slate-300 */
   border-radius: 8px;
