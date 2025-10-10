@@ -44,9 +44,8 @@
         <option value="with_2_parents_only">With 2 Parents Only</option>
       </select>
 
-      <!-- This notice is shown if user selects 10% or 20% with any dependent set -->
       <p id="depNotice" class="notice" role="status" aria-live="polite" hidden>
-        Note: At 10% and 20% ratings, VA does not add amounts for dependents. Calculations will use the “Veteran Alone” rate.
+        Note: At 10% and 20% ratings, VA does not add amounts for dependents. Calculations use the “Veteran Alone” rate.
       </p>
 
       <label for="currentAge">Current Age:</label>
@@ -90,7 +89,7 @@
       >
 
       <label for="extraInvestment">
-        Additional Monthly Investment:
+        Additional Monthly Investment (USD):
         <span id="extraInvestmentValue" aria-live="polite">$0</span>
       </label>
       <input
@@ -103,6 +102,14 @@
         value="0"
         aria-describedby="extraInvestmentValue"
       >
+
+      <!-- Chart card (mobile: below result; desktop: above result via CSS grid placement) -->
+      <div class="chart-card" aria-live="polite">
+        <div class="chart-title">Projected Growth</div>
+        <div class="chart-wrap">
+          <canvas id="growthChart" aria-label="Projected balance over time" role="img"></canvas>
+        </div>
+      </div>
 
       <div class="result">
         <output
@@ -129,6 +136,8 @@
     </form>
   </main>
 
+  <!-- Chart.js (deferred, loads before script.js) -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js" defer></script>
   <script src="js/script.js" defer></script>
 </body>
 </html>
