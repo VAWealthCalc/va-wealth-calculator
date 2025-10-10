@@ -1,4 +1,6 @@
-// VA Wealth Builder — Accessible, single-handler version
+// VA Wealth Builder — with growth chart (Chart.js) and nice Y-axis ticks
+let growthChart = null;
+
 document.addEventListener('DOMContentLoaded', () => {
   const els = {
     form: document.getElementById('calcForm'),
@@ -11,14 +13,13 @@ document.addEventListener('DOMContentLoaded', () => {
     rrVal: document.getElementById('returnRateValue'),
     exVal: document.getElementById('extraInvestmentValue'),
     result: document.getElementById('result'),
-    depNotice: document.getElementById('depNotice')
+    depNotice: document.getElementById('depNotice'),
+    chartCanvas: document.getElementById('growthChart')
   };
 
   const fmtCurrency0 = (n) =>
     new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-      maximumFractionDigits: 0
+      style: 'currency', currency: 'USD', maximumFractionDigits: 0
     }).format(Number(n) || 0);
 
   const fmtPct1 = (p) => `${(Number(p) || 0).toFixed(1)}%`;
@@ -35,14 +36,14 @@ document.addEventListener('DOMContentLoaded', () => {
   // Initial compute
   enforceAgeConstraints();
   toggleDepNotice();
-  calculateProjection();
+  calculateProjectionAndUpdate();
 
   function onInputChange(e) {
     if (e.target === els.returnRate) els.rrVal.textContent = fmtPct1(e.target.value);
     if (e.target === els.extraInvestment) els.exVal.textContent = fmtCurrency0(e.target.value);
     enforceAgeConstraints();
     toggleDepNotice();
-    calculateProjection();
+    calculateProjectionAndUpdate();
   }
 
   function enforceAgeConstraints() {
@@ -58,62 +59,176 @@ document.addEventListener('DOMContentLoaded', () => {
     const rating = String(els.rating?.value || '');
     const hasDependents = (els.dependents?.value || 'alone') !== 'alone';
     const show = (rating === '10' || rating === '20') && hasDependents;
-    if (els.depNotice) {
-      if (show) els.depNotice.hidden = false;
-      else els.depNotice.hidden = true;
+    if (els.depNotice) els.depNotice.hidden = !show;
+  }
+
+  function calculateProjectionAndUpdate() {
+    const rating = document.getElementById('rating')?.value;
+    const dependents = document.getElementById('dependents')?.value;
+
+    const currentAge = Math.max(parseInt(document.getElementById('currentAge')?.value || '22', 10), 18);
+    const retirementAge = Math.min(
+      Math.max(parseInt(document.getElementById('retirementAge')?.value || '60', 10), currentAge + 1),
+      110
+    );
+
+    // Choose the appropriate table (fallback to 'alone' if missing)
+    const table = vaCompensationRates[dependents] || vaCompensationRates.alone;
+    const baseMonthly = (table?.[rating] ?? vaCompensationRates.alone?.[rating]) || 0;
+
+    const annualRate = parseFloat(document.getElementById('returnRate')?.value || '0') / 100;
+    // Nominal monthly rate; for effective monthly use: Math.pow(1 + annualRate, 1/12) - 1
+    const monthlyRate = annualRate / 12;
+
+    const extraInvestment = parseFloat(document.getElementById('extraInvestment')?.value || '0') || 0;
+    const COLA = 0.025;
+
+    const years = Math.max(0, retirementAge - currentAge);
+    let total = 0;
+    let monthlyComp = baseMonthly;
+
+    // Chart series (start at age with $0, then end-of-year totals)
+    const labels = [currentAge];
+    const data = [0];
+
+    for (let y = 0; y < years; y++) {
+      for (let m = 0; m < 12; m++) {
+        const monthlyContribution = monthlyComp + extraInvestment;
+        total = (total + monthlyContribution) * (1 + monthlyRate);
+      }
+      // After year-end, push the balance and bump COLA for next year
+      labels.push(currentAge + y + 1);
+      data.push(total);
+      monthlyComp *= (1 + COLA);
+    }
+
+    // Update the displayed final number (rounded to nearest $100 to match your UX)
+    const rounded = Math.round(total / 100) * 100;
+    const out = document.getElementById('result');
+    if (out) {
+      out.textContent = new Intl.NumberFormat('en-US', {
+        style: 'currency', currency: 'USD', maximumFractionDigits: 0
+      }).format(rounded);
+    }
+
+    // Update chart (pick nice Y ticks based on final balance)
+    if (els.chartCanvas && window.Chart) {
+      const maxY = data[data.length - 1] || 0;
+      const { niceMax, step } = computeNiceAxis(maxY);
+      renderOrUpdateChart(els.chartCanvas, labels, data, niceMax, step);
     }
   }
 });
 
-function calculateProjection() {
-  const rating = document.getElementById('rating')?.value;
-  const dependents = document.getElementById('dependents')?.value;
+/* ---------- Chart helpers ---------- */
 
-  const currentAge = Math.max(parseInt(document.getElementById('currentAge')?.value || '22', 10), 18);
-  const retirementAge = Math.min(
-    Math.max(parseInt(document.getElementById('retirementAge')?.value || '60', 10), currentAge + 1),
-    110
-  );
+// Choose “nice” axis max and step using 1–2–5 progression aiming ~5 ticks
+function computeNiceAxis(maxVal) {
+  const safeMax = Math.max(0, maxVal);
+  if (safeMax === 0) return { niceMax: 1000, step: 200 };
+  const niceMax = niceCeil(safeMax);
+  const step = niceCeil(niceMax / 5);
+  return { niceMax, step };
+}
 
-  // Choose the appropriate table (fallback to 'alone' if missing)
-  const table = vaCompensationRates[dependents] || vaCompensationRates.alone;
-  const baseMonthly = (table?.[rating] ?? vaCompensationRates.alone?.[rating]) || 0;
+function niceCeil(n) {
+  const exp = Math.floor(Math.log10(n));
+  const pow10 = Math.pow(10, exp);
+  const f = n / pow10;
+  let nf;
+  if (f <= 1) nf = 1;
+  else if (f <= 2) nf = 2;
+  else if (f <= 5) nf = 5;
+  else nf = 10;
+  return nf * pow10;
+}
 
-  const annualRate = parseFloat(document.getElementById('returnRate')?.value || '0') / 100;
-  // Nominal monthly rate; to use effective monthly instead:
-  // const monthlyRate = Math.pow(1 + annualRate, 1 / 12) - 1;
-  const monthlyRate = annualRate / 12;
+// $1.2K / $3.4M / $1.1B tick formatter
+function formatAbbrevUSD(v) {
+  const n = Math.abs(v);
+  const sign = v < 0 ? "-" : "";
+  if (n >= 1e9) return `${sign}$${(n/1e9).toFixed(1)}B`;
+  if (n >= 1e6) return `${sign}$${(n/1e6).toFixed(1)}M`;
+  if (n >= 1e3) return `${sign}$${(n/1e3).toFixed(1)}K`;
+  return `${sign}$${Math.round(n).toLocaleString("en-US")}`;
+}
 
-  const extraInvestment = parseFloat(document.getElementById('extraInvestment')?.value || '0') || 0;
-  const COLA = 0.025;
+// Read CSS var (fallback if unset)
+function cssVar(name, fallback) {
+  const v = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  return v || fallback;
+}
 
-  const years = Math.max(0, retirementAge - currentAge);
-  let total = 0;
-  let monthlyComp = baseMonthly;
+function renderOrUpdateChart(canvas, labels, data, niceMax, step) {
+  const lineColor = cssVar('--blue', '#0a58ca');
 
-  for (let y = 0; y < years; y++) {
-    // Contribute THIS year's monthly benefit + extra
-    for (let m = 0; m < 12; m++) {
-      const monthlyContribution = monthlyComp + extraInvestment;
-      total = (total + monthlyContribution) * (1 + monthlyRate);
+  const cfg = {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [{
+        label: 'Projected Balance',
+        data,
+        borderColor: lineColor,
+        backgroundColor: lineColor,
+        borderWidth: 2,
+        tension: 0.25,
+        pointRadius: 0,
+        fill: false
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false, // use CSS height
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          mode: 'index',
+          intersect: false,
+          callbacks: {
+            title: (items) => items.length ? `Age ${items[0].label}` : '',
+            label: (ctx) => {
+              const val = ctx.parsed.y || 0;
+              return ` ${new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(val)}`;
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          grid: { display: false },
+          ticks: {
+            autoSkip: true,
+            maxTicksLimit: 8
+          },
+          title: { display: false }
+        },
+        y: {
+          beginAtZero: true,
+          suggestedMax: niceMax,
+          ticks: {
+            stepSize: step,
+            callback: (v) => formatAbbrevUSD(v),
+          },
+          title: { display: false }
+        }
+      }
     }
-    // Apply COLA for NEXT year (end-of-year timing)
-    monthlyComp *= (1 + COLA);
-  }
+  };
 
-  // Round to nearest $100 (kept by design)
-  const rounded = Math.round(total / 100) * 100;
-
-  const out = document.getElementById('result');
-  if (out) {
-    out.textContent = new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-      maximumFractionDigits: 0
-    }).format(rounded);
+  if (growthChart) {
+    growthChart.data.labels = labels;
+    growthChart.data.datasets[0].data = data;
+    growthChart.options.scales.y.suggestedMax = niceMax;
+    growthChart.options.scales.y.ticks.stepSize = step;
+    growthChart.update();
+  } else {
+    const ctx = canvas.getContext('2d');
+    growthChart = new Chart(ctx, cfg);
   }
 }
 
+/* ---------- Existing rates table ---------- */
 // Monthly USD rates. Note: 10% & 20% do not have dependent add-ons.
 const vaCompensationRates = {
   alone: {
