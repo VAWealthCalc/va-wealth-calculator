@@ -2,16 +2,24 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
   <title>VA Wealth Builder</title>
+  <meta
+    name="description"
+    content="Project long-term wealth using VA disability benefits, COLA, and optional monthly contributions."
+  />
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <div class="container">
-    <h2>VA Wealth Builder</h2>
+  <main class="container">
+    <h1>VA Wealth Builder</h1>
 
-    <label>VA Disability Rating:
-      <select id="rating">
+    <form id="calcForm" novalidate>
+      <label for="rating">VA Disability Rating:</label>
+      <select id="rating" name="rating">
         <option value="10" selected>10%</option>
         <option value="20">20%</option>
         <option value="30">30%</option>
@@ -23,10 +31,9 @@
         <option value="90">90%</option>
         <option value="100">100%</option>
       </select>
-    </label>
 
-    <label>Dependent Status:
-      <select id="dependents">
+      <label for="dependents">Dependent Status:</label>
+      <select id="dependents" name="dependents">
         <option value="alone">Veteran Alone (No Dependents)</option>
         <option value="with_spouse">With Spouse Only</option>
         <option value="with_spouse_and_child">With Spouse and 1 Child</option>
@@ -36,39 +43,92 @@
         <option value="with_1_parent_only">With 1 Parent Only</option>
         <option value="with_2_parents_only">With 2 Parents Only</option>
       </select>
-    </label>
 
-    <label>Current Age (Min 18):
-      <input type="number" id="currentAge" placeholder="22" min="18">
-    </label>
+      <!-- This notice is shown if user selects 10% or 20% with any dependent set -->
+      <p id="depNotice" class="notice" role="status" aria-live="polite" hidden>
+        Note: At 10% and 20% ratings, VA does not add amounts for dependents. Calculations will use the “Veteran Alone” rate.
+      </p>
 
-    <label>Retirement Age (Max 110):
-      <input type="number" id="retirementAge" placeholder="60" max="110">
-    </label>
+      <label for="currentAge">Current Age (Min 18):</label>
+      <input
+        type="number"
+        id="currentAge"
+        name="currentAge"
+        placeholder="22"
+        value="22"
+        min="18"
+        step="1"
+        required
+      >
 
-    <label>
-      Annual Investment Return (%): <span id="returnRateValue">10%</span>
-      <input type="range" id="returnRate" min="0" max="15" value="10">
-    </label>
+      <label for="retirementAge">Retirement Age (Max 110):</label>
+      <input
+        type="number"
+        id="retirementAge"
+        name="retirementAge"
+        placeholder="60"
+        value="60"
+        min="19"
+        max="110"
+        step="1"
+        required
+      >
 
-    <label>
-      Additional Monthly Investment ($): <span id="extraInvestmentValue">$0</span>
-      <input type="range" id="extraInvestment" min="0" max="1000" step="50" value="0">
-    </label>
+      <label for="returnRate">
+        Annual Investment Return (%):
+        <span id="returnRateValue" aria-live="polite">10.0%</span>
+      </label>
+      <input
+        type="range"
+        id="returnRate"
+        name="returnRate"
+        min="0"
+        max="15"
+        step="0.1"
+        value="10"
+        aria-describedby="returnRateValue"
+      >
 
-    <div class="result">
-      <span id="result">$0</span>
-      <div class="label">Projected Balanace</div>
-    </div>
+      <label for="extraInvestment">
+        Additional Monthly Investment (USD):
+        <span id="extraInvestmentValue" aria-live="polite">$0</span>
+      </label>
+      <input
+        type="range"
+        id="extraInvestment"
+        name="extraInvestment"
+        min="0"
+        max="1000"
+        step="50"
+        value="0"
+        aria-describedby="extraInvestmentValue"
+      >
 
-    <div class="disclaimer">This tool is for informational purposes only and is not financial advice.</div>
+      <div class="result">
+        <output
+          id="result"
+          for="rating dependents currentAge retirementAge returnRate extraInvestment"
+          aria-live="polite"
+        >
+          $0
+        </output>
+        <div class="label">Projected Balance</div>
+      </div>
 
-    <div class="links">
-      <a href="https://www.va.gov/supporting-forms-for-claims/intent-to-file-form-21-0966/introduction/" target="_blank">Submit an Intent to File</a> |
-      <a href="https://www.va.gov/disability/compensation-rates/veteran-rates/" target="_blank">Latest VA Disability Rates</a>
-    </div>
-  </div>
+      <p class="disclaimer">
+        This tool is for informational purposes only and is not financial advice.
+      </p>
 
-  <script src="js/script.js"></script>
+      <p class="links">
+        <a href="https://www.va.gov/supporting-forms-for-claims/intent-to-file-form-21-0966/introduction/"
+           target="_blank" rel="noopener noreferrer">Submit an Intent to File</a>
+        |
+        <a href="https://www.va.gov/disability/compensation-rates/veteran-rates/"
+           target="_blank" rel="noopener noreferrer">Latest VA Disability Rates</a>
+      </p>
+    </form>
+  </main>
+
+  <script src="js/script.js" defer></script>
 </body>
 </html>
