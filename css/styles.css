@@ -55,7 +55,7 @@ h1, h2 {
 }
 
 /* EXTRA: more space below the header (works on all browsers) */
-.container > h1 { margin-bottom: 32px; }
+.container > h1 { margin-bottom: 16px; }
 @media (min-width: 1024px) {
   .container > h1 { margin-bottom: 48px; }
 }
@@ -64,8 +64,8 @@ h1, h2 {
 label {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  margin-bottom: 16px;
+  gap: 0px;
+  margin-bottom: 4px;
   color: var(--text);
 }
 
@@ -234,7 +234,7 @@ input:invalid {
 .form-stack {
   display: grid;
   grid-template-columns: 1fr;
-  row-gap: 12px;
+  row-gap: 6px;
 }
 
 /* ===== Dark mode ===== */
