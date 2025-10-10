@@ -19,7 +19,7 @@ window.onload = () => {
     const rating = document.getElementById('rating').value;
     const dependents = document.getElementById('dependents').value;
     const currentAge = Math.max(Number(document.getElementById('currentAge').value) || 22, 18);
-    let retirementAge = Math.min(Number(document.getElementById('retirementAge').value) || 67, 110);
+    let retirementAge = Math.min(Number(document.getElementById('retirementAge').value) || 60, 110);
     if (retirementAge <= currentAge) retirementAge = currentAge + 1;
   
     const baseCompensation = (vaCompensationRates[dependents] && vaCompensationRates[dependents][rating])
