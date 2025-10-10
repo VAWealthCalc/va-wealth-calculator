@@ -1,3 +1,11 @@
+/* =========================
+   VA Wealth Builder - styles.css
+   - Mobile-first
+   - Accessible colors & focus
+   - Dark mode support
+   - Desktop: two-column w/ sticky result (Option A)
+   ========================= */
+
 /* ===== Base / Resets ===== */
 *,
 *::before,
@@ -9,7 +17,6 @@
   --text: #111827;            /* slate-900-ish */
   --muted: #4b5563;           /* slate-600-ish */
   --blue: #0a58ca;            /* AA contrast on white */
-  --blue-track: #cfe0ff;
   --result-bg: #e6f0ff;
   --focus: 3px solid #0a58ca;
   --radius: 12px;
@@ -28,7 +35,7 @@ body {
   font-size: 18px;
 }
 
-/* Container */
+/* ===== Container ===== */
 .container {
   max-width: 800px;
   margin: 24px auto;
@@ -38,7 +45,7 @@ body {
   box-shadow: var(--shadow);
 }
 
-/* Headings (support h1 or h2) */
+/* ===== Headings ===== */
 h1, h2 {
   text-align: center;
   font-size: 2rem;
@@ -46,7 +53,7 @@ h1, h2 {
   line-height: 1.2;
 }
 
-/* Form */
+/* ===== Form ===== */
 label {
   display: flex;
   flex-direction: column;
@@ -71,7 +78,7 @@ select:focus-visible {
   outline-offset: 2px;
 }
 
-/* Informational notice */
+/* Informational notice (e.g., 10%/20% dependent add-on note) */
 .notice {
   margin: 6px 0 14px;
   padding: 10px 12px;
@@ -82,7 +89,7 @@ select:focus-visible {
   font-size: 0.95rem;
 }
 
-/* Range (slider) */
+/* ===== Range (slider) ===== */
 input[type="range"] {
   -webkit-appearance: none;
   appearance: none;
@@ -134,7 +141,7 @@ input[type="range"]:focus-visible::-moz-range-thumb {
   outline-offset: 2px;
 }
 
-/* Result */
+/* ===== Result ===== */
 .result {
   padding: 20px;
   background-color: var(--result-bg);
@@ -154,7 +161,7 @@ input[type="range"]:focus-visible::-moz-range-thumb {
   color: #374151; /* slate-700 */
 }
 
-/* Small print + links */
+/* ===== Small print + links ===== */
 .disclaimer,
 .links {
   text-align: center;
@@ -188,7 +195,7 @@ input:invalid {
   white-space: nowrap;
 }
 
-/* Dark mode */
+/* ===== Dark mode ===== */
 @media (prefers-color-scheme: dark) {
   :root {
     --bg: #0b1220;
@@ -196,7 +203,6 @@ input:invalid {
     --text: #e5e7eb;
     --muted: #94a3b8;
     --result-bg: #0b1a3a;
-    --blue-track: #163c7a;
   }
   body { background-color: var(--bg); color: var(--text); }
   .container { background-color: var(--card); }
@@ -205,4 +211,70 @@ input:invalid {
   input[type="range"]::-moz-range-track { background: #334155; }
   .result { color: #e5e7eb; box-shadow: none; }
   .result .label { color: var(--muted); }
+}
+
+/* =========================
+   Desktop-only layout (Option A)
+   – keeps mobile unchanged
+   – no HTML/JS changes needed
+   ========================= */
+@media (min-width: 1024px) {
+  .container {
+    max-width: 1200px;          /* more breathing room on laptops/desktops */
+    padding: 48px;
+  }
+
+  /* Two-column grid: left = form, right = sticky result */
+  #calcForm {
+    display: grid;
+    grid-template-columns: minmax(520px, 1fr) clamp(340px, 34vw, 440px);
+    column-gap: 56px;
+    align-items: start;
+  }
+
+  /* By default, everything lands in column 1 (form) */
+  #calcForm > * {
+    grid-column: 1;
+  }
+
+  /* Result card sits in the right column and sticks as you scroll */
+  #calcForm .result {
+    grid-column: 2;
+    grid-row: 1 / span 8;    /* align with the top fields */
+    position: sticky;
+    top: 24px;
+    margin-top: 0;
+    padding: 28px 32px;
+    font-size: clamp(1.8rem, 2.2vw, 2.4rem);  /* scale up for desktop */
+    border-radius: 14px;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+  }
+
+  .result .label {
+    margin-top: 8px;
+    font-size: 1.05rem;
+  }
+
+  /* Make disclaimers/links span the full width at the bottom */
+  #calcForm .disclaimer,
+  #calcForm .links {
+    grid-column: 1 / -1;
+    margin-top: 32px;
+  }
+
+  /* Desktop spacing tweaks so the form breathes but feels compact */
+  label { margin-bottom: 14px; }
+  label[for="rating"], label[for="dependents"] { margin-bottom: 8px; }
+  #depNotice { margin: 4px 0 16px; }
+  label[for="currentAge"], label[for="retirementAge"] { margin-bottom: 10px; }
+  label[for="returnRate"], #returnRate { margin-bottom: 10px; }
+  label[for="extraInvestment"], #extraInvestment { margin-bottom: 16px; }
+
+  /* Hide number spinners on desktop (cleaner look) */
+  input[type="number"] { -moz-appearance: textfield; }
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 }
