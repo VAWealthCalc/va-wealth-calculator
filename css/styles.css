@@ -54,6 +54,12 @@ h1, h2 {
   line-height: 1.2;
 }
 
+/* EXTRA: more space below the header (works on all browsers) */
+.container > h1 { margin-bottom: 32px; }
+@media (min-width: 1024px) {
+  .container > h1 { margin-bottom: 48px; }
+}
+
 /* ===== Form ===== */
 label {
   display: flex;
@@ -149,7 +155,7 @@ input[type="range"]:focus-visible::-moz-range-thumb {
   border: 1px solid rgba(10, 88, 202, 0.2);
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-  margin-top: 16px; /* mobile: chart sits under result */
+  margin-top: 8px;  /* tighter gap from result on mobile */
 }
 
 .chart-title {
@@ -224,7 +230,7 @@ input:invalid {
   white-space: nowrap;
 }
 
-/* NEW: keep all left-column controls together (prevents split rows on desktop) */
+/* Keep all left-column controls together */
 .form-stack {
   display: grid;
   grid-template-columns: 1fr;
@@ -247,7 +253,7 @@ input:invalid {
   input[type="range"]::-webkit-slider-runnable-track,
   input[type="range"]::-moz-range-track { background: #334155; }
   .result { color: #e5e7eb; box-shadow: none; }
-  .result .label { color: var(--muted); }
+  .result .label { color: #94a3b8; }
   .chart-title { color: #cbd5e1; }
 }
 
@@ -270,12 +276,13 @@ input:invalid {
     display: grid;
     grid-template-columns: minmax(520px, 1fr) clamp(360px, 34vw, 480px);
     column-gap: 56px;
+    row-gap: 0;           /* avoid implicit row gaps in Safari */
     align-items: start;
   }
 
   /* Place each major block explicitly */
   .form-stack { grid-column: 1; grid-row: 1 / span 2; }
-  .chart-card { grid-column: 2; grid-row: 1; margin-top: 0; }
+  .chart-card { grid-column: 2; grid-row: 1; margin-top: 0; margin-bottom: 0; }
   .chart-wrap { height: 300px; } /* bigger chart on desktop */
 
   .result {
@@ -283,7 +290,7 @@ input:invalid {
     grid-row: 2;
     position: sticky;
     top: 24px;
-    margin-top: 16px;
+    margin-top: 8px;   /* tighter gap from chart */
     padding: 28px 32px;
     font-size: clamp(1.8rem, 2.2vw, 2.4rem);
     border-radius: 14px;
@@ -312,28 +319,5 @@ input:invalid {
   input[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
-  }
-   /* ========== 1) More space under the page header ========== */
-/* Mobile & tablet */
-.container > h1 { 
-  margin-bottom: 32px;   /* was 10px */
-}
-/* Desktop — a little extra breathing room */
-@media (min-width: 1024px) {
-  .container > h1 { 
-    margin-bottom: 48px; 
-  }
-}
-
-/* ========== 2) Reduce space between the chart and the projection ========== */
-/* On phones the chart is BELOW the result, so tighten that gap: */
-.chart-card { 
-  margin-top: 8px;       /* was 16px */
-}
-
-/* On desktop the chart is ABOVE the result, so tighten the result’s top margin: */
-@media (min-width: 1024px) {
-  .result {
-    margin-top: 8px;     /* was 16px; set to 0px for an even tighter stack */
   }
 }
