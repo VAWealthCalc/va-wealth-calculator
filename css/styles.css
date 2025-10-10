@@ -3,7 +3,7 @@
    - Mobile-first
    - Accessible colors & focus
    - Dark mode support
-   - Desktop: two-column w/ sticky result (Option A) and chart above result
+   - Desktop: two-column w/ chart above result (Option A)
    ========================= */
 
 /* ===== Base / Resets ===== */
@@ -224,6 +224,13 @@ input:invalid {
   white-space: nowrap;
 }
 
+/* NEW: keep all left-column controls together (prevents split rows on desktop) */
+.form-stack {
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 12px;
+}
+
 /* ===== Dark mode ===== */
 @media (prefers-color-scheme: dark) {
   :root {
@@ -248,14 +255,17 @@ input:invalid {
    Desktop-only layout (Option A)
    – keeps mobile unchanged
    – chart above result on right column
+   – left side is a single grid item (.form-stack)
    ========================= */
 @media (min-width: 1024px) {
   .container {
-    max-width: 1200px;          /* more breathing room on laptops/desktops */
+    max-width: 1200px;
     padding: 48px;
   }
 
-  /* Two-column grid: left = form, right = sticky result + chart */
+  /* Two columns:
+     - Col 1: the single .form-stack block
+     - Col 2: chart (row 1) and sticky result (row 2) */
   #calcForm {
     display: grid;
     grid-template-columns: minmax(520px, 1fr) clamp(360px, 34vw, 480px);
@@ -263,20 +273,12 @@ input:invalid {
     align-items: start;
   }
 
-  /* By default, everything lands in column 1 (form) */
-  #calcForm > * { grid-column: 1; }
+  /* Place each major block explicitly */
+  .form-stack { grid-column: 1; grid-row: 1 / span 2; }
+  .chart-card { grid-column: 2; grid-row: 1; margin-top: 0; }
+  .chart-wrap { height: 300px; } /* bigger chart on desktop */
 
-  /* Place chart at top-right */
-  #calcForm .chart-card {
-    grid-column: 2;
-    grid-row: 1;
-    margin-top: 0;
-  }
-
-  .chart-wrap { height: 300px; } /* larger desktop chart */
-
-  /* Result sits under chart and stays sticky */
-  #calcForm .result {
+  .result {
     grid-column: 2;
     grid-row: 2;
     position: sticky;
@@ -285,7 +287,7 @@ input:invalid {
     padding: 28px 32px;
     font-size: clamp(1.8rem, 2.2vw, 2.4rem);
     border-radius: 14px;
-    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.12);
   }
 
   .result .label {
@@ -293,22 +295,18 @@ input:invalid {
     font-size: 1.05rem;
   }
 
-  /* Make disclaimers/links span the full width at the bottom */
-  #calcForm .disclaimer,
-  #calcForm .links {
+  /* Footer text spans both columns */
+  .disclaimer,
+  .links {
     grid-column: 1 / -1;
     margin-top: 32px;
   }
 
-  /* Desktop spacing tweaks so the form breathes but feels compact */
+  /* Desktop niceties */
   label { margin-bottom: 14px; }
-  label[for="rating"], label[for="dependents"] { margin-bottom: 8px; }
   #depNotice { margin: 4px 0 16px; }
-  label[for="currentAge"], label[for="retirementAge"] { margin-bottom: 10px; }
-  label[for="returnRate"], #returnRate { margin-bottom: 10px; }
-  label[for="extraInvestment"], #extraInvestment { margin-bottom: 16px; }
 
-  /* Hide number spinners on desktop (cleaner look) */
+  /* Hide number spinners on desktop */
   input[type="number"] { -moz-appearance: textfield; }
   input[type="number"]::-webkit-outer-spin-button,
   input[type="number"]::-webkit-inner-spin-button {
