@@ -12,7 +12,7 @@
     <h1>VA Wealth Builder</h1>
 
     <form id="calcForm" novalidate>
-      <!-- LEFT COLUMN: keep all controls together so grid rows don’t split them -->
+      <!-- LEFT COLUMN -->
       <div class="form-stack">
         <label for="rating">VA Disability Rating:</label>
         <select id="rating" name="rating">
@@ -43,6 +43,15 @@
         <p id="depNotice" class="notice" role="status" aria-live="polite" hidden>
           Note: At 10% and 20% ratings, VA does not add amounts for dependents. Calculations use the “Veteran Alone” rate.
         </p>
+
+        <!-- Only shown when a child option is selected -->
+        <div id="childFields" hidden>
+          <label for="childAge">
+            Child’s current age
+            <input id="childAge" name="childAge" type="number" min="0" max="17" step="1" value="0" />
+            <div class="helper">We assume the child add-on stops at age 18.</div>
+          </label>
+        </div>
 
         <label for="currentAge">Current Age:</label>
         <input
@@ -84,6 +93,29 @@
           aria-describedby="returnRateValue"
         >
 
+        <!-- Inflation (results always shown in today's dollars) -->
+        <label for="inflation">
+          Inflation (CPI) %
+          <div class="input-row">
+            <input
+              id="inflation"
+              name="inflation"
+              type="number"
+              inputmode="decimal"
+              step="0.1"
+              min="0"
+              max="20"
+              value="2.5"
+              aria-describedby="inflationHelp"
+            />
+            <span class="addon">%</span>
+          </div>
+          <div id="inflationHelp" class="helper">
+            All results are shown in <strong>today’s dollars</strong> using the inflation rate you set.
+          </div>
+        </label>
+
+        <!-- Additional monthly (kept flat in nominal dollars) -->
         <label for="extraInvestment">
           Additional Monthly Investment:
           <span id="extraInvestmentValue" aria-live="polite">$0</span>
@@ -93,23 +125,19 @@
           id="extraInvestment"
           name="extraInvestment"
           min="0"
-          max="1000"
+          max="2000"
           step="50"
           value="0"
           aria-describedby="extraInvestmentValue"
         >
       </div>
 
-      <!-- MOBILE ORDER: Result first, then Chart (desktop CSS repositions) -->
+      <!-- RIGHT COLUMN (on desktop): Result then Chart -->
       <div class="result">
-        <output
-          id="result"
-          for="rating dependents currentAge retirementAge returnRate extraInvestment"
-          aria-live="polite"
-        >
-          $0
-        </output>
-        <div class="label">Projected Balance</div>
+        <output id="result" aria-live="polite">$0</output>
+        <div class="label">
+          Projected Balance <span id="resultMeta">(today’s $ @ 2.5% inflation)</span>
+        </div>
       </div>
 
       <div class="chart-card" aria-live="polite">
@@ -120,7 +148,8 @@
       </div>
 
       <p class="disclaimer">
-        This tool is for informational purposes only and is not financial advice.
+        This tool is for informational purposes only and is not financial advice.<br />
+        <small id="ratesStamp">Rates year: <span id="ratesYear">Embedded</span></small>
       </p>
 
       <p class="links">
