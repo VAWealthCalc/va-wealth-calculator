@@ -12,16 +12,16 @@
 *::after { box-sizing: border-box; }
 
 :root {
-  --bg: #f7f9fc;
-  --card: #ffffff;
-  --text: #111827;            /* slate-900-ish */
-  --muted: #4b5563;           /* slate-600-ish */
-  --blue: #0a58ca;            /* AA contrast on white */
-  --result-bg: #e6f0ff;
-  --chart-bg: #f1f5ff;
+  --bg: #0b1220;              /* dark default to match screenshots */
+  --card: #0f172a;
+  --text: #e5e7eb;
+  --muted: #94a3b8;
+  --blue: #0a58ca;
+  --result-bg: #0b1a3a;
+  --chart-bg: #0c1936;
   --focus: 3px solid #0a58ca;
   --radius: 12px;
-  --shadow: 0 10px 20px rgba(0,0,0,0.1);
+  --shadow: 0 10px 20px rgba(0,0,0,0.35);
 }
 
 html { font-size: 100%; }
@@ -54,7 +54,7 @@ h1, h2 {
   line-height: 1.2;
 }
 
-/* EXTRA: more space below the header (works on all browsers) */
+/* EXTRA: more space below the header */
 .container > h1 { margin-bottom: 16px; }
 @media (min-width: 1024px) {
   .container > h1 { margin-bottom: 48px; }
@@ -73,9 +73,9 @@ input,
 select {
   padding: 8px 10px;
   font-size: 1rem;
-  border: 1px solid #d1d5db; /* slate-300 */
+  border: 1px solid #334155;
   border-radius: 8px;
-  background: #fff;
+  background: #0b1220;
   color: var(--text);
 }
 
@@ -85,18 +85,18 @@ select:focus-visible {
   outline-offset: 2px;
 }
 
-/* Informational notice (e.g., 10%/20% dependent add-on note) */
+/* Informational notice */
 .notice {
   margin: 6px 0 14px;
   padding: 10px 12px;
-  border: 1px solid #f59e0b;   /* amber-500 */
-  background: #fff7ed;         /* amber-50 */
-  color: #92400e;              /* amber-900 */
+  border: 1px solid #f59e0b;
+  background: #32240a;
+  color: #fde68a;
   border-radius: 8px;
   font-size: 0.95rem;
 }
 
-/* ===== Range (slider) ===== */
+/* Range (slider) */
 input[type="range"] {
   -webkit-appearance: none;
   appearance: none;
@@ -106,97 +106,74 @@ input[type="range"] {
   padding: 0;
   border: 0;
 }
-
-/* Track */
 input[type="range"]::-webkit-slider-runnable-track {
   height: 8px;
-  background: #d1d5db;
+  background: #334155;
   border-radius: 4px;
 }
 input[type="range"]::-moz-range-track {
   height: 8px;
-  background: #d1d5db;
+  background: #334155;
   border-radius: 4px;
 }
-
-/* Thumb */
 input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  height: 24px;
-  width: 24px;
+  height: 24px; width: 24px;
   background: var(--blue);
   cursor: pointer;
   border-radius: 50%;
-  margin-top: -8px; /* centers thumb on 8px track */
-  border: 2px solid #ffffff;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  margin-top: -8px;
+  border: 2px solid #ffffff20;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.4);
 }
 input[type="range"]::-moz-range-thumb {
-  height: 24px;
-  width: 24px;
+  height: 24px; width: 24px;
   background: var(--blue);
   cursor: pointer;
   border-radius: 50%;
-  border: 2px solid #ffffff;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  border: 2px solid #ffffff20;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.4);
 }
 
-input[type="range"]:focus-visible::-webkit-slider-thumb,
-input[type="range"]:focus-visible::-moz-range-thumb {
-  outline: var(--focus);
-  outline-offset: 2px;
-}
-
-/* ===== Chart card ===== */
+/* Chart card */
 .chart-card {
   padding: 16px 16px 8px;
   background: var(--chart-bg);
   border: 1px solid rgba(10, 88, 202, 0.2);
   border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-  margin-top: 8px;  /* tighter gap from result on mobile */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+  margin-top: 8px;
 }
-
 .chart-title {
   font-size: 0.95rem;
   font-weight: 600;
-  color: #1f2937; /* slate-800 */
+  color: #cbd5e1;
   margin-bottom: 8px;
 }
+.chart-wrap { position: relative; width: 100%; height: 240px; }
+.chart-wrap canvas { width: 100% !important; height: 100% !important; }
 
-.chart-wrap {
-  position: relative;
-  width: 100%;
-  height: 240px; /* mobile chart height */
-}
-
-.chart-wrap canvas {
-  width: 100% !important;
-  height: 100% !important;
-}
-
-/* ===== Result ===== */
+/* Result */
 .result {
   padding: 20px;
   background-color: var(--result-bg);
   border: 2px solid var(--blue);
   border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 255, 0.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 255, 0.15);
   text-align: center;
   font-size: 2rem;
   font-weight: bold;
   margin-top: 24px;
-  color: #0f172a; /* slate-900 */
-  font-variant-numeric: tabular-nums; /* stable digit width */
+  color: #e5e7eb;
+  font-variant-numeric: tabular-nums;
 }
-
 .result .label {
   font-size: 1rem;
-  color: #374151; /* slate-700 */
+  color: #94a3b8;
 }
 
-/* ===== Small print + links ===== */
+/* Small print + links */
 .disclaimer,
 .links {
   text-align: center;
@@ -204,24 +181,20 @@ input[type="range"]:focus-visible::-moz-range-thumb {
   margin-top: 15px;
   color: var(--muted);
 }
-
 a {
-  color: var(--blue);
-  text-decoration: underline;    /* avoid color-only cue */
+  color: #85b7ff;
+  text-decoration: underline;
   text-underline-offset: 2px;
 }
 a:hover,
 a:focus-visible {
   text-decoration-thickness: 2px;
-  outline: none; /* rely on underline + color change */
 }
 
-/* Invalid inputs (if using HTML validation) */
-input:invalid {
-  border-color: #dc2626; /* red-600 */
-}
+/* Invalid inputs */
+input:invalid { border-color: #dc2626; }
 
-/* Utility: visually hidden for a11y (if needed) */
+/* Utility */
 .visually-hidden {
   position: absolute !important;
   height: 1px; width: 1px;
@@ -237,31 +210,30 @@ input:invalid {
   row-gap: 6px;
 }
 
-/* ===== Dark mode ===== */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #0b1220;
-    --card: #0f172a;
-    --text: #e5e7eb;
-    --muted: #94a3b8;
-    --result-bg: #0b1a3a;
-    --chart-bg: #0c1936;
-  }
-  body { background-color: var(--bg); color: var(--text); }
-  .container { background-color: var(--card); }
-  input, select { background: #0b1220; color: var(--text); border-color: #334155; }
-  input[type="range"]::-webkit-slider-runnable-track,
-  input[type="range"]::-moz-range-track { background: #334155; }
-  .result { color: #e5e7eb; box-shadow: none; }
-  .result .label { color: #94a3b8; }
-  .chart-title { color: #cbd5e1; }
+/* Inline input with trailing unit */
+.input-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+}
+.input-row .addon {
+  margin-left: -36px;
+  padding-right: 10px;
+  color: var(--muted);
+  pointer-events: none;
+  font-size: 0.95rem;
+}
+.input-row input { padding-right: 36px; }
+
+.helper {
+  margin-top: 4px;
+  font-size: 0.9rem;
+  color: var(--muted);
 }
 
 /* =========================
    Desktop-only layout (Option A)
-   – keeps mobile unchanged
-   – chart above result on right column
-   – left side is a single grid item (.form-stack)
    ========================= */
 @media (min-width: 1024px) {
   .container {
@@ -269,89 +241,48 @@ input:invalid {
     padding: 48px;
   }
 
-  /* Two columns:
-     - Col 1: the single .form-stack block
-     - Col 2: chart (row 1) and sticky result (row 2) */
   #calcForm {
     display: grid;
     grid-template-columns: minmax(520px, 1fr) clamp(360px, 34vw, 480px);
     column-gap: 56px;
-    row-gap: 0;           /* avoid implicit row gaps in Safari */
+    row-gap: 0;
     align-items: start;
   }
 
-  /* Place each major block explicitly */
   .form-stack { grid-column: 1; grid-row: 1 / span 2; }
   .chart-card { grid-column: 2; grid-row: 1; margin-top: 0; margin-bottom: 0; }
-  .chart-wrap { height: 300px; } /* bigger chart on desktop */
+  .chart-wrap { height: 300px; }
 
   .result {
-    grid-column: 2;
-    grid-row: 2;
-    position: sticky;
-    top: 24px;
-    margin-top: 8px;   /* tighter gap from chart */
+    grid-column: 2; grid-row: 2;
+    position: sticky; top: 24px;
+    margin-top: 8px;
     padding: 28px 32px;
     font-size: clamp(1.8rem, 2.2vw, 2.4rem);
     border-radius: 14px;
-    box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.2);
   }
 
-  .result .label {
-    margin-top: 8px;
-    font-size: 1.05rem;
-  }
+  .result .label { margin-top: 8px; font-size: 1.05rem; }
 
-  /* Footer text spans both columns */
-  .disclaimer,
-  .links {
-    grid-column: 1 / -1;
-    margin-top: 32px;
-  }
+  .disclaimer, .links { grid-column: 1 / -1; margin-top: 32px; }
 
-  /* Desktop niceties */
   label { margin-bottom: 14px; }
   #depNotice { margin: 4px 0 16px; }
 
-  /* Hide number spinners on desktop */
-  input[type="number"] { -moz-appearance: textfield; }
-  input[type="number"]::-webkit-outer-spin-button,
-  input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-      /* === Compact form spacing (global) === */
-   label {
-     /* tighten the gap between the label and the next input/select */
-     margin-bottom: 6px;   /* was 16px */
-     gap: 0;               /* neutralize any leftover flex gap */
-   }
-   
-   .form-stack {
-     /* reduce vertical spacing between form rows */
-     row-gap: 8px;         /* was 12px */
-   }
-   
-   /* Slightly shorter controls for less vertical scroll */
-   input,
-   select {
-     padding: 8px 10px;    /* was 10px 10px */
-   }
-   
-   /* Slimmer sliders to save a bit more space */
-   input[type="range"] { height: 24px; }              /* was 30px */
-   input[type="range"]::-webkit-slider-runnable-track,
-   input[type="range"]::-moz-range-track { height: 6px; }  /* was 8px */
-   input[type="range"]::-webkit-slider-thumb {
-     height: 20px; width: 20px; margin-top: -7px;     /* align to 6px track */
-   }
-   input[type="range"]::-moz-range-thumb {
-     height: 20px; width: 20px;
-   }
-   
-   /* Optional: tiny mobile nudge so the result peeks into view sooner */
-   @media (max-width: 480px) {
-     .container { padding-top: 20px; padding-bottom: 20px; }  /* was 30px */
-     .result { margin-top: 20px; }  /* a touch tighter above the result card */
-   }
+  /* Compact form spacing */
+  label { margin-bottom: 6px; gap: 0; }
+  .form-stack { row-gap: 8px; }
+  input, select { padding: 8px 10px; }
+  input[type="range"] { height: 24px; }
+  input[type="range"]::-webkit-slider-runnable-track,
+  input[type="range"]::-moz-range-track { height: 6px; }
+  input[type="range"]::-webkit-slider-thumb { height: 20px; width: 20px; margin-top: -7px; }
+  input[type="range"]::-moz-range-thumb { height: 20px; width: 20px; }
+}
+
+/* Small-screen nudge (FIX: not nested) */
+@media (max-width: 480px) {
+  .container { padding-top: 20px; padding-bottom: 20px; }
+  .result { margin-top: 20px; }
 }
